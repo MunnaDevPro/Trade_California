@@ -1,0 +1,192 @@
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_settings.site_name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ site_settings.tagline }}{% endblock %}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ site_settings.site_name }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site_settings.tagline }}{% endblock %}">
+    {% if site_settings.logo %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site_settings.logo.url }}">
+    {% endif %}
+
+    {% if site_settings.favicon %}
+    <link rel="icon" href="{{ site_settings.favicon.url }}">
+    {% endif %}
+
+    {% tailwind_css %}
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS CSS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Base 3D Perspective for hero */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center gap-3">
+                        {% if site_settings.logo %}
+                        <img class="h-10 w-auto" src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}">
+                        {% endif %}
+                        <span class="font-bold text-xl text-indigo-900 tracking-tight">{{ site_settings.site_name }}</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    {% for link in nav_links %}
+                    <a href="{{ link.url }}" class="text-gray-600 hover:text-indigo-600 font-medium transition-colors duration-200">{{ link.label }}</a>
+                    {% endfor %}
+                </nav>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-indigo-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {% for link in nav_links %}
+                <a href="{{ link.url }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-md">{{ link.label }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Brand Info -->
+                <div data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-4">{{ site_settings.site_name }}</h3>
+                    <p class="text-slate-400 mb-4">{{ site_settings.tagline }}</p>
+                    <p class="text-slate-400">Email: {{ site_settings.contact_email }}</p>
+                    <p class="text-slate-400">Phone: {{ site_settings.contact_phone }}</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="text-lg font-semibold mb-4 text-indigo-400">Quick Links</h4>
+                    <ul class="space-y-2">
+                        {% for link in nav_links %}
+                        <li><a href="{{ link.url }}" class="text-slate-300 hover:text-white transition-colors">{{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Important Links -->
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="text-lg font-semibold mb-4 text-indigo-400">Information</h4>
+                    <ul class="space-y-2">
+                        {% for link in footer_links %}
+                        <li><a href="{{ link.url }}" class="text-slate-300 hover:text-white transition-colors">{{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700 mt-12 pt-8 text-center text-slate-500">
+                <p>&copy; <span id="current-year"></span> {{ site_settings.site_name }}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize Animate On Scroll (only if no reduced motion)
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100,
+                easing: 'ease-out-cubic',
+            });
+
+            // Initialize Vanilla Tilt for elements with data-tilt
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 10,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2,
+                perspective: 1000
+            });
+        }
+    </script>
+
+    <!-- Chatbot / Analytics Integrations -->
+    {% if site_settings.chatbot_embed_code %}
+    {{ site_settings.chatbot_embed_code|safe }}
+    {% endif %}
+    {% if site_settings.analytics_script %}
+    {{ site_settings.analytics_script|safe }}
+    {% endif %}
+</body>
+
+</html>

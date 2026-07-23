@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Services | {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<section class="bg-slate-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-down">Our Services</h1>
+        <p class="text-xl text-slate-300 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">Comprehensive international trade solutions tailored to your business role.</p>
+    </div>
+</section>
+
+<section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {% for service in services %}
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                {% if service.icon %}
+                <div class="bg-indigo-50 w-20 h-20 rounded-2xl flex items-center justify-center mb-6">
+                    <img src="{{ service.icon.url }}" alt="{{ service.title }}" class="w-10 h-10">
+                </div>
+                {% endif %}
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">{{ service.title }}</h2>
+                <div class="prose text-slate-600 mb-8 flex-grow">
+                    {% if service.detailed_description %}
+                        {{ service.detailed_description|safe }}
+                    {% else %}
+                        {{ service.short_description|linebreaks }}
+                    {% endif %}
+                </div>
+                <div class="mt-auto">
+                    <a href="/registration/?role={{ service.slug }}" class="block w-full text-center bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                        Register as {{ service.title }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
