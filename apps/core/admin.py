@@ -1,11 +1,88 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from solo.admin import SingletonModelAdmin
-from .models import SiteSettings, NavigationLink, FooterLink, CompanyValue, Mentor
+from .models import (
+    SiteSettings, NavigationLink, FooterLink, CompanyValue, Mentor,
+    NewsletterSubscriber, HomePageSettings, AboutPageSettings,
+    ProductsPageSettings, ServicesPageSettings, ContactPageSettings,
+    RegistrationPageSettings
+)
 
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(SingletonModelAdmin, ModelAdmin):
-    pass
+    fieldsets = (
+        ('General Info', {
+            'fields': ('site_name', 'tagline', 'logo', 'favicon')
+        }),
+        ('Contact Info', {
+            'fields': ('contact_email', 'contact_phone')
+        }),
+        ('Social Media', {
+            'fields': ('facebook_url', 'twitter_url', 'linkedin_url')
+        }),
+        ('Integrations', {
+            'fields': ('chatbot_embed_code', 'analytics_script')
+        }),
+    )
+
+@admin.register(HomePageSettings)
+class HomePageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage', 'hero_cta_text', 'hero_cta_link')
+        }),
+    )
+
+@admin.register(AboutPageSettings)
+class AboutPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage')
+        }),
+        ('Content Section', {
+            'fields': ('mission_statement', 'vision_statement')
+        }),
+        ('Call to Action (CTA)', {
+            'fields': ('cta_headline', 'cta_subtext', 'cta_button_text', 'cta_button_link')
+        }),
+    )
+
+@admin.register(ProductsPageSettings)
+class ProductsPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage')
+        }),
+    )
+
+@admin.register(ServicesPageSettings)
+class ServicesPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage')
+        }),
+    )
+
+@admin.register(ContactPageSettings)
+class ContactPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage')
+        }),
+    )
+
+@admin.register(RegistrationPageSettings)
+class RegistrationPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage')
+        }),
+    )
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(ModelAdmin):
+    list_display = ['email', 'subscribed_at']
+    search_fields = ['email']
 
 @admin.register(NavigationLink)
 class NavigationLinkAdmin(ModelAdmin):

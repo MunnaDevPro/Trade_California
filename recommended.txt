@@ -1,0 +1,43 @@
+Trade catalog (products list) page er design ta update koro. Ekhane bame category filter ta aro interactive koro and right side e products grid ta homepage er moto premium and professional koro.
+
+Product detail page ta ekdom premium kore design koro. Product er image, description, price, origin country and contact supplier button jate khub shundor bhabe presentation kora hoy.
+
+About Us page er design ta ekebare modern koro. Ekhane company values, mission, and team members der info gula premium card e show koro sathe micro-animations add koro.
+
+Contact page a ekta interactive Google Map embed koro. Pashe ekta contact form rakho and form e professional validation (like empty na thaka, valid email etc) add koro.
+
+Registration page (seller and buyer) er form ta ke ekta modern multi-step form er moto design koro. Form UI ta jate next level er hoy.
+
+Pura website a ekta light/dark mode toggle button add koro and smooth page transition animations add koro.
+
+---
+Project Setup and Run Commands:
+
+Project setup korar jonno nicher command gula serial-wise terminal e run korte hobe:
+
+1. Virtual Environment toiri kora:
+uv venv
+
+2. Virtual Environment activate kora (Windows er jonno):
+.\.venv\Scripts\activate
+
+3. Dependencies install kora:
+uv pip install -r requirements.txt
+
+4. Database setup and migrate kora:
+python manage.py migrate
+
+5. Admin account (Superuser) toiri kora:
+python manage.py createsuperuser
+
+6. Tailwind CSS er dependencies install kora:
+python manage.py tailwind install
+
+
+Project Run korar jonno 2 ta alada terminal use korte hobe (Duto terminal e virtual environment active thakte hobe):
+
+Terminal 1 (Django Server run korar jonno):
+python manage.py runserver
+
+Terminal 2 (Tailwind CSS watcher run korar jonno):
+python manage.py tailwind start
