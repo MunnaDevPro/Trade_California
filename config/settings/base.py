@@ -136,14 +136,40 @@ TINYMCE_DEFAULT_CONFIG = {
     "custom_undo_redo_levels": 10,
 }
 
+def get_site_logo(request):
+    try:
+        from apps.core.models import SiteSettings
+        settings = SiteSettings.objects.first()
+        if settings and settings.logo:
+            return settings.logo.url
+    except Exception:
+        pass
+    return "/static/img/logo-icon-light.png"
+
+def get_site_favicon(request):
+    try:
+        from apps.core.models import SiteSettings
+        settings = SiteSettings.objects.first()
+        if settings and settings.favicon:
+            return settings.favicon.url
+    except Exception:
+        pass
+    return ""
+
 # Unfold settings
 UNFOLD = {
     "SITE_TITLE": "Trade California Admin",
     "SITE_HEADER": "Trade California International",
     "SITE_ICON": {
-        "light": lambda request: "/static/img/logo-icon-light.png",
-        "dark": lambda request: "/static/img/logo-icon-dark.png",
+        "light": get_site_logo,
+        "dark": get_site_logo,
     },
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "href": get_site_favicon,
+        }
+    ],
     "COLORS": {
         "primary": {
             "50": "238 242 255",
