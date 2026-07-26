@@ -96,6 +96,11 @@ def ai_chat(request):
                 detail = f"- {p.name} (Category: {p.category.name}"
                 if p.origin_country: detail += f", Origin: {p.origin_country}"
                 if p.description:    detail += f", Desc: {p.description[:100]}"
+                
+                primary_img = p.images.filter(is_primary=True).first() or p.images.first()
+                if primary_img and primary_img.image:
+                    detail += f", ImageURL: {request.build_absolute_uri(primary_img.image.url)}"
+                    
                 product_details.append(detail + ")")
 
             service_details = [f"- {s.title}: {s.short_description[:120]}" for s in services]
@@ -181,7 +186,8 @@ Match the user's language exactly:
 == FORMAT ==
 - Use - bullet points for lists.
 - **Bold** for names/titles.
-- One item per line. Tight and clean."""
+- One item per line. Tight and clean.
+- IMPORTANT: When listing products, ALWAYS include the product image if an ImageURL is provided. Use markdown format: ![Product Name](ImageURL) at the beginning of the bullet point. Example: - ![Almonds](http://...) **California Almonds**"""
 
             api_key = os.environ.get('GEMINI_API_KEY')
             if not api_key or not genai:
@@ -227,7 +233,14 @@ Match the user's language exactly:
                         cat_name = p.category.name if p.category else "Uncategorized"
                         if requested_category and cat_name != requested_category:
                             continue
-                        cat_map[cat_name].append(p.name)
+                        
+                        pn = p.name
+                        primary_img = p.images.filter(is_primary=True).first() or p.images.first()
+                        if primary_img and primary_img.image:
+                            img_url = request.build_absolute_uri(primary_img.image.url)
+                            pn = f"![{p.name}]({img_url}) {p.name}"
+                            
+                        cat_map[cat_name].append(pn)
 
                     resp_lines = []
                     for cat, p_names in cat_map.items():
