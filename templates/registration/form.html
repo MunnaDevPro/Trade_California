@@ -16,8 +16,12 @@
     {% endif %}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <span class="inline-block py-1 px-3 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-sm font-semibold uppercase tracking-widest mb-4" data-aos="fade-down">Partner Registration</span>
+        {% if registration_settings.hero_headline %}
         <h1 class="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight text-white" data-aos="fade-up" data-aos-delay="100">{{ registration_settings.hero_headline }}</h1>
+        {% endif %}
+        {% if registration_settings.hero_subtext %}
         <p class="text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed" data-aos="fade-up" data-aos-delay="100">{{ registration_settings.hero_subtext }}</p>
+        {% endif %}
     </div>
 </section>
 

@@ -24,10 +24,14 @@
         <span
             class="inline-block py-1 px-3 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-sm font-semibold uppercase tracking-widest mb-6"
             data-aos="fade-down">Contact Us</span>
+        {% if contact_settings.hero_headline %}
         <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-white" data-aos="fade-up"
             data-aos-delay="100">{{ contact_settings.hero_headline }}</h1>
+        {% endif %}
+        {% if contact_settings.hero_subtext %}
         <p class="text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed" data-aos="fade-up"
             data-aos-delay="100">{{ contact_settings.hero_subtext }}</p>
+        {% endif %}
     </div>
 </section>
 

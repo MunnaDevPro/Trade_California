@@ -5,7 +5,7 @@ from .models import (
     SiteSettings, NavigationLink, FooterLink, CompanyValue, Mentor,
     NewsletterSubscriber, HomePageSettings, AboutPageSettings,
     ProductsPageSettings, ServicesPageSettings, ContactPageSettings,
-    RegistrationPageSettings
+    RegistrationPageSettings, WhyChooseUsItem
 )
 
 @admin.register(SiteSettings)
@@ -31,7 +31,19 @@ class HomePageSettingsAdmin(SingletonModelAdmin, ModelAdmin):
         ('Hero Section', {
             'fields': ('hero_headline', 'hero_subtext', 'hero_background', 'hero_opacity_percentage', 'hero_cta_text', 'hero_cta_link')
         }),
+        ('Overview Section', {
+            'fields': ('overview_badge_text', 'overview_image', 'overview_title', 'overview_tagline', 'overview_content')
+        }),
+        ('Why Choose Us Section', {
+            'fields': ('why_choose_us_headline',)
+        }),
     )
+
+@admin.register(WhyChooseUsItem)
+class WhyChooseUsItemAdmin(ModelAdmin):
+    list_display = ['title', 'order', 'is_active']
+    list_editable = ['order', 'is_active']
+    search_fields = ['title']
 
 @admin.register(AboutPageSettings)
 class AboutPageSettingsAdmin(SingletonModelAdmin, ModelAdmin):

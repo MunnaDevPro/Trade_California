@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from apps.products.models import Product, Category
+from apps.products.models import Product
 from apps.services.models import ServiceType
-from apps.core.models import Mentor, CompanyValue
+from apps.core.models import Mentor, CompanyValue, WhyChooseUsItem, HomePageSettings
 
 def home(request):
     featured_products_list = Product.objects.all().order_by('-id')
@@ -11,7 +11,15 @@ def home(request):
     featured_products = paginator.get_page(page_number)
     
     services = ServiceType.objects.all()[:3]
-    return render(request, "core/home.html", {"featured_products": featured_products, "services": services})
+    why_choose_us_items = WhyChooseUsItem.objects.filter(is_active=True).order_by('order')
+    home_page_settings = HomePageSettings.objects.first()
+    
+    return render(request, "core/home.html", {
+        "featured_products": featured_products, 
+        "services": services,
+        "why_choose_us_items": why_choose_us_items,
+        "home_page_settings": home_page_settings
+    })
 
 def about(request):
     mentors = Mentor.objects.filter(is_active=True).order_by('order')
@@ -93,15 +101,11 @@ def ai_chat(request):
             # ── Build product/service text for AI ──────────────────────────────
             product_details = []
             for p in products:
-                detail = f"- {p.name} (Category: {p.category.name}"
-                if p.origin_country: detail += f", Origin: {p.origin_country}"
-                if p.description:    detail += f", Desc: {p.description[:100]}"
-                
-                primary_img = p.images.filter(is_primary=True).first() or p.images.first()
-                if primary_img and primary_img.image:
-                    detail += f", ImageURL: {request.build_absolute_uri(primary_img.image.url)}"
+                detail = f"- Product #{p.id}"
+                if p.image:
+                    detail += f", ImageURL: {request.build_absolute_uri(p.image.url)}"
                     
-                product_details.append(detail + ")")
+                product_details.append(detail)
 
             service_details = [f"- {s.title}: {s.short_description[:120]}" for s in services]
 
@@ -197,7 +201,7 @@ Match the user's language exactly:
                 asks_service = any(w in lower_msg for w in ["service", "সার্ভিস", "সেবা", "seva"])
 
                 # --- Step 1: Check if user mentioned any category name directly ---
-                all_categories = list(set(p.category.name for p in products if p.category))
+                all_categories = []
                 stop_words = {"only", "the", "me", "give", "and", "or", "a", "an", "of",
                               "er", "ta", "te", "to", "shob", "oi", "please", "just", "ami",
                               "tumi", "koro", "deo", "dao", "product", "products", "item",
@@ -230,15 +234,12 @@ Match the user's language exactly:
                     cat_map = defaultdict(list)
 
                     for p in products:
-                        cat_name = p.category.name if p.category else "Uncategorized"
-                        if requested_category and cat_name != requested_category:
-                            continue
+                        cat_name = "Products"
                         
-                        pn = p.name
-                        primary_img = p.images.filter(is_primary=True).first() or p.images.first()
-                        if primary_img and primary_img.image:
-                            img_url = request.build_absolute_uri(primary_img.image.url)
-                            pn = f"![{p.name}]({img_url}) {p.name}"
+                        pn = f"Product #{p.id}"
+                        if p.image:
+                            img_url = request.build_absolute_uri(p.image.url)
+                            pn = f"![{pn}]({img_url}) {pn}"
                             
                         cat_map[cat_name].append(pn)
 

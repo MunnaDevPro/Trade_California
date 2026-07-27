@@ -23,14 +23,18 @@
         <span
             class="inline-block py-1 px-3 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-widest mb-4"
             data-aos="fade-down">About Us</span>
+        {% if about_settings.hero_headline %}
         <h1 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white" data-aos="fade-up"
             data-aos-delay="100">
             {{ about_settings.hero_headline }}
         </h1>
+        {% endif %}
+        {% if about_settings.hero_subtext %}
         <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-light leading-relaxed" data-aos="fade-up"
             data-aos-delay="200">
             {{ about_settings.hero_subtext }}
         </p>
+        {% endif %}
     </div>
 </section>
 
@@ -100,14 +104,14 @@
             {% for mentor in mentors %}
             <div class="relative group bg-white rounded-xl shadow-sm border border-slate-100 hover:border-blue-900 hover:shadow-md transition-all duration-300 p-3 flex flex-col"
                 data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'1' }}00">
-                <div class="h-40 sm:h-44 bg-slate-100 relative overflow-hidden rounded-lg">
+                <div class="aspect-square bg-slate-100 relative overflow-hidden rounded-lg">
                     {% if mentor.photo %}
                     <img src="{{ mentor.photo.url }}" alt="{{ mentor.name }}"
-                        class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     {% else %}
                     <!-- Placeholder dummy photo -->
                     <img src="https://i.pravatar.cc/400?img={{ forloop.counter|add:30 }}" alt="{{ mentor.name }}"
-                        class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     {% endif %}
 
                     <!-- Overlay effect with social icons -->

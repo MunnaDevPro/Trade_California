@@ -89,12 +89,22 @@ class NewsletterSubscriber(models.Model):
 # --- Page Settings Models ---
 
 class HomePageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="Expand Your Global Reach")
-    hero_subtext = models.TextField(default="Premium Trade & International Business Platform")
+    hero_headline = models.CharField(max_length=255, default="Expand Your Global Reach", blank=True, null=True)
+    hero_subtext = models.TextField(default="Premium Trade & International Business Platform", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=30, help_text="Opacity of the hero background image (0-100)")
     hero_cta_text = models.CharField(max_length=50, default="Register Now", blank=True)
     hero_cta_link = models.CharField(max_length=255, default="/registration/", blank=True)
+    
+    why_choose_us_headline = models.CharField(max_length=255, default="Why Trade California?")
+    
+    # Overview Section
+    overview_badge_text = models.CharField(max_length=50, default="Overview", blank=True)
+    overview_image = models.ImageField(upload_to='site/overview/', blank=True, null=True)
+    overview_title = models.CharField(max_length=255, default="Connecting American Opportunity with Global Markets.", blank=True)
+    overview_tagline = models.CharField(max_length=255, default="From California to the World.", blank=True)
+    overview_content = HTMLField(blank=True, default="<p>Founded by <strong>Andrew Hughan</strong>, former USAIF professional, <span class=\"font-medium\">Trade California</span> is a Sacramento, California-based international trade and business development platform operated by <strong>American Green Technology, LLC.</strong></p><p>Trade California connects global buyers, distributors, governments, and business partners with trusted U.S.-based products, commodities, services, and business opportunities—helping build meaningful connections between American businesses and international markets.</p>")
+
     
     def __str__(self):
         return "Home Page Settings"
@@ -103,9 +113,21 @@ class HomePageSettings(SingletonModel):
         verbose_name = "Home Page Settings"
         verbose_name_plural = "Home Page Settings"
 
+class WhyChooseUsItem(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
 class AboutPageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="About Us")
-    hero_subtext = models.TextField(default="Trade California International")
+    hero_headline = models.CharField(max_length=255, default="About Us", blank=True, null=True)
+    hero_subtext = models.TextField(default="Trade California International", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=20, help_text="Opacity of the hero background image (0-100)")
     
@@ -125,8 +147,8 @@ class AboutPageSettings(SingletonModel):
         verbose_name_plural = "About Page Settings"
 
 class ProductsPageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="Our Products")
-    hero_subtext = models.TextField(default="Explore our premium catalog of American products.")
+    hero_headline = models.CharField(max_length=255, default="Our Products", blank=True, null=True)
+    hero_subtext = models.TextField(default="Explore our premium catalog of American products.", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=20, help_text="Opacity of the hero background image (0-100)")
 
@@ -138,8 +160,8 @@ class ProductsPageSettings(SingletonModel):
         verbose_name_plural = "Products Page Settings"
 
 class ServicesPageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="Our Services")
-    hero_subtext = models.TextField(default="Comprehensive solutions for international trade.")
+    hero_headline = models.CharField(max_length=255, default="Our Services", blank=True, null=True)
+    hero_subtext = models.TextField(default="Comprehensive solutions for international trade.", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=20, help_text="Opacity of the hero background image (0-100)")
 
@@ -151,8 +173,8 @@ class ServicesPageSettings(SingletonModel):
         verbose_name_plural = "Services Page Settings"
 
 class ContactPageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="Contact Us")
-    hero_subtext = models.TextField(default="Get in touch with our expert team today.")
+    hero_headline = models.CharField(max_length=255, default="Contact Us", blank=True, null=True)
+    hero_subtext = models.TextField(default="Get in touch with our expert team today.", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=20, help_text="Opacity of the hero background image (0-100)")
 
@@ -164,8 +186,8 @@ class ContactPageSettings(SingletonModel):
         verbose_name_plural = "Contact Page Settings"
 
 class RegistrationPageSettings(SingletonModel):
-    hero_headline = models.CharField(max_length=255, default="Partner Registration")
-    hero_subtext = models.TextField(default="Join our global network of verified trade partners.")
+    hero_headline = models.CharField(max_length=255, default="Partner Registration", blank=True, null=True)
+    hero_subtext = models.TextField(default="Join our global network of verified trade partners.", blank=True, null=True)
     hero_background = models.ImageField(upload_to='site/hero/', blank=True, null=True)
     hero_opacity_percentage = models.PositiveIntegerField(default=20, help_text="Opacity of the hero background image (0-100)")
 
