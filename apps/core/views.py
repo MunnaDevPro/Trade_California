@@ -5,7 +5,7 @@ from apps.services.models import ServiceType
 from apps.core.models import Mentor, CompanyValue, WhyChooseUsItem, HomePageSettings
 
 def home(request):
-    featured_products_list = Product.objects.all().order_by('-id')
+    featured_products_list = Product.objects.all().order_by('order')
     paginator = Paginator(featured_products_list, 8)
     page_number = request.GET.get('page')
     featured_products = paginator.get_page(page_number)

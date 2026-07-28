@@ -5,7 +5,9 @@ from django.utils.html import format_html
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ['id', 'is_featured', 'image_preview']
+    list_display = ['image_preview', 'is_featured', 'order']
+    list_display_links = ['image_preview']
+    list_editable = ['is_featured', 'order']
     list_filter = ['is_featured']
     
     def image_preview(self, obj):

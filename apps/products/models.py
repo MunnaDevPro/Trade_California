@@ -9,6 +9,10 @@ class Product(models.Model):
                                      format='JPEG',
                                      options={'quality': 85})
     is_featured = models.BooleanField(default=False)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return f"Product #{self.id}"
