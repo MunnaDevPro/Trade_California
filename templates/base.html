@@ -187,15 +187,15 @@
     <!-- Unified Header -->
     <header class="sticky top-0 z-50 w-full shadow-md font-sans"
         style="background-color: #3f556d; font-family: 'Inter', sans-serif;">
-        <div class="mx-auto flex w-full max-w-[1600px]" style="height: 130px; flex-direction: row;">
+        <div class="mx-auto flex w-full max-w-[1600px]" style="height: 140px; flex-direction: row;">
 
             <!-- Left Side: Logo in White Box (Desktop) -->
-            <div class="hidden md:flex bg-white flex-shrink-0 items-center justify-center p-3 relative z-10"
+            <div class="hidden md:flex bg-white flex-shrink-0 items-center justify-center p-2 relative z-10"
                 style="width: 230px;">
                 <a href="/" class="flex items-center justify-center h-full w-full">
                     {% if site_settings.logo %}
                     <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}"
-                        style="max-height: 105px; max-width: 100%; object-fit: contain;">
+                        style="max-height: 125px; max-width: 100%; object-fit: contain;">
                     {% else %}
                     <span
                         class="font-extrabold text-xl text-slate-800 uppercase tracking-tight text-center leading-tight">
@@ -211,7 +211,7 @@
                 <div class="flex-shrink-0 flex items-center bg-white p-2 rounded">
                     {% if site_settings.logo %}
                     <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}"
-                        style="max-height: 40px; width: auto; object-fit: contain;">
+                        style="max-height: 55px; width: auto; object-fit: contain;">
                     {% else %}
                     <a href="/" class="text-slate-900 font-bold text-lg tracking-tight uppercase">
                         {{ site_settings.site_name|default:"Trade California" }}
@@ -232,14 +232,19 @@
             <div class="hidden md:flex flex-1 flex-col min-w-0">
 
                 <!-- Top Row (Title + Icons) -->
-                <div class="flex justify-between items-center px-6 relative" style="height: 75px; background-color: #4a627d;">
+                <div class="flex justify-between items-center px-6 relative" style="height: 85px; background-color: #4a627d;">
                     <!-- Empty div to balance flex layout -->
                     <div></div>
 
-                    <!-- Title -->
-                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-bold tracking-normal uppercase truncate"
-                        style="font-family: 'Oswald', 'Inter', sans-serif; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.5px;">
-                        {{ site_settings.site_name|default:"TRADE CALIFORNIA" }}
+                    <!-- Title & Subtitle -->
+                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-white w-full max-w-[400px] md:max-w-[500px] mt-1.5">
+                        <div class="font-bold tracking-normal uppercase truncate w-full text-center leading-none"
+                            style="font-family: 'Oswald', 'Inter', sans-serif; font-size: clamp(26px, 3.5vw, 38px); letter-spacing: -0.5px;">
+                            {{ site_settings.site_name|default:"TRADE CALIFORNIA" }}
+                        </div>
+                        <div class="text-[15px] md:text-[18px] font-semibold tracking-wide opacity-95 mt-1 whitespace-nowrap" style="font-family: 'Inter', sans-serif;">
+                            Your Gateway to Global Trade
+                        </div>
                     </div>
 
                     <!-- Right Actions -->
@@ -347,7 +352,7 @@
                         </style>
                         <div class="relative h-full flex items-center tc-nav-item">
                             <a href="{{ link.url }}"
-                                class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white hover:bg-white/10 gap-1.5 focus:outline-none">
+                                class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white gap-1.5 focus:outline-none">
                                 {{ link.label }}
                                 <svg class="w-3.5 h-3.5 opacity-70 transition-transform duration-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
@@ -459,7 +464,7 @@
                         <!-- Connect Dropdown -->
                         <div class="relative group h-full flex items-center">
                             <button
-                                class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white hover:bg-white/10 gap-1.5 focus:outline-none">
+                                class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white gap-1.5 focus:outline-none">
                                 {{ link.label }}
                                 <svg class="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-transform duration-200 group-hover:rotate-180"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -500,7 +505,7 @@
                         </div>
                         {% else %}
                         <a href="{{ link.url }}"
-                            class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white hover:bg-white/10 gap-1.5 group relative">
+                            class="px-4 h-full flex items-center text-[13px] font-medium transition-colors duration-200 text-blue-50 hover:text-white gap-1.5 group relative">
                             {{ link.label }}
                         </a>
                         {% endif %}
@@ -530,60 +535,7 @@
             </div>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const currentPath = window.location.pathname;
 
-                // Select top-level nav links and buttons in header only
-                const navItems = document.querySelectorAll('header nav > a, header nav > div > a, header nav > div > button');
-
-                navItems.forEach(el => {
-                    // Remove the inline hover hacks to let JS handle it cleanly
-                    el.removeAttribute('onmouseout');
-                    el.removeAttribute('onmouseover');
-
-                    let href = el.getAttribute('href');
-                    let isActive = false;
-
-                    // If it's a button (like Connect), it might not have an href, but we can check its text
-                    // Or we just rely on href for links
-                    if (href) {
-                        // Check if current path starts with this href, or exact match for home
-                        if (href === '/' && currentPath === '/') {
-                            isActive = true;
-                        } else if (href !== '/' && currentPath.startsWith(href)) {
-                            isActive = true;
-                        }
-                    } else {
-                        // For buttons without href, check if we are in a route related to their text (e.g. /services for Services)
-                        let text = el.innerText.trim().toLowerCase();
-                        if (text && currentPath.includes('/' + text)) {
-                            isActive = true;
-                        }
-                    }
-
-                    // Apply active state
-                    if (isActive) {
-                        el.style.backgroundColor = '#003875';
-                        el.dataset.active = 'true';
-                    } else {
-                        el.style.backgroundColor = 'transparent';
-                        el.dataset.active = 'false';
-                    }
-
-                    // Add smooth hover handlers
-                    el.addEventListener('mouseenter', () => {
-                        el.style.backgroundColor = '#003875';
-                    });
-
-                    el.addEventListener('mouseleave', () => {
-                        if (el.dataset.active !== 'true') {
-                            el.style.backgroundColor = 'transparent';
-                        }
-                    });
-                });
-            });
-        </script>
 
     </header>
     <!-- Mobile Menu Dropdown -->
@@ -1827,88 +1779,6 @@
         });
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const navLinks = document.querySelectorAll('header nav a, #mobile-menu a');
-            const currentPath = window.location.pathname;
-
-            function setActiveClass(link, isActive) {
-                const isMobile = link.closest('#mobile-menu') !== null;
-                const isDropdown = link.closest('.absolute') !== null && !isMobile;
-
-                if (isActive) {
-                    if (isMobile || isDropdown) {
-                        link.classList.add('bg-indigo-50', 'text-indigo-700');
-                        if (isMobile) link.classList.add('border-indigo-100');
-                        link.classList.remove('text-slate-700', 'border-transparent');
-                    } else {
-                        link.classList.add('text-white', 'bg-white/10');
-                        link.classList.remove('text-blue-50');
-                    }
-                } else {
-                    if (isMobile || isDropdown) {
-                        link.classList.remove('bg-indigo-50', 'text-indigo-700');
-                        if (isMobile) link.classList.remove('border-indigo-100');
-                        link.classList.add('text-slate-700');
-                        if (isMobile) link.classList.add('border-transparent');
-                    } else {
-                        link.classList.remove('text-white', 'bg-white/10');
-                        link.classList.add('text-blue-50');
-                    }
-                }
-            }
-
-            // 1. Initial Page Load Active State
-            navLinks.forEach(link => {
-                const linkUrl = link.getAttribute('href');
-                if (linkUrl && !linkUrl.includes('#')) {
-                    try {
-                        // For relative URLs like "/" or "/about", handle them properly
-                        const linkPath = linkUrl.startsWith('/') ? linkUrl : new URL(linkUrl, window.location.origin).pathname;
-                        if ((currentPath === '/' && linkPath === '/') || (currentPath !== '/' && linkPath !== '/' && currentPath.startsWith(linkPath))) {
-                            setActiveClass(link, true);
-                        }
-                    } catch (e) { }
-                }
-            });
-
-            // 2. Scrollspy for Sections with IDs
-            const sections = document.querySelectorAll('section[id], div[id]');
-            if (sections.length > 0) {
-                const observerOptions = {
-                    root: null,
-                    rootMargin: '-20% 0px -60% 0px',
-                    threshold: 0
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const activeId = entry.target.getAttribute('id');
-                            navLinks.forEach(link => {
-                                const href = link.getAttribute('href');
-                                if (href && href.includes('#')) {
-                                    if (href.endsWith('#' + activeId)) {
-                                        setActiveClass(link, true);
-                                    } else {
-                                        setActiveClass(link, false);
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }, observerOptions);
-
-                sections.forEach(section => {
-                    // Only observe sections that are actually linked in the navbar to save performance
-                    const isLinked = Array.from(navLinks).some(link => link.getAttribute('href')?.endsWith('#' + section.id));
-                    if (isLinked) {
-                        observer.observe(section);
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>
